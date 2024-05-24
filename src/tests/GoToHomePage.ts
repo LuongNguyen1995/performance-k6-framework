@@ -1,15 +1,9 @@
 import http from 'k6/http';
-import { check } from 'k6';
+import { check, sleep } from 'k6';
 import { EnvVariables } from '../constants/EnvVariables';
-
-// export const options = {
-//     vus: 20,
-//     duration: '2m',
-//     thresholds: {
-//       http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-//       http_req_duration: ['p(95)<500'], // 95% of requests should be below 200ms
-//     },
-//   };
+import { getRandomInt } from '../utils/helpers';
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
 
 export default function openUrl(){
 
@@ -17,4 +11,12 @@ export default function openUrl(){
     check(res, {
         'is status 200': (r) => r.status === 200,
       });
+      sleep(getRandomInt(3));
 }
+
+export function handleSummary(data: any) {
+    return {
+      "result.html": htmlReport(data),
+      stdout: textSummary(data, { indent: " ", enableColors: true }),
+    };
+  }
