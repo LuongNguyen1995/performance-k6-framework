@@ -17,7 +17,7 @@ module.exports = (env) => {
   const entries = {};
 
   // Array of folder to search for files
-  const folders = ['api', 'constants','env', 'reports', 'tests', 'utils'];
+  const folders = ['constants','env', 'tests', 'utils'];
 
   // Iterate all files and attach them to the entries object
   folders.forEach(folder => {
